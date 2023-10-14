@@ -1,41 +1,75 @@
 import services
-import tkinter 
+import random  
+import tkinter
+import copy
 
-points = 0
-def clicked():  
-    lbl.configure(text = str(question[0]), font=("Arial Bold", 25))
+class Quiz:
+    def __init__(self):
+        self.points = 0
+        self.init_window()
 
+    def init_window(self):
+        self.window = tkinter.Tk()
+        self.window.title("Викторина:)")
+        self.window.geometry('1024x768')
 
-
-window = tkinter.Tk()
-window.title("Викторина:)")
-window.geometry('1080x500')
-
-question = services.take_question()
-
-lbl = tkinter.Label(window)
-lbl.pack()
-
-
-btn = tkinter.Button(window, text="Начать", command=clicked)
-btn.pack()
-window.mainloop()
+        self.lbl = tkinter.Label(self.window)
+        self.lbl.pack()
 
 
-print(question[0], '\n')
+        self.btn = tkinter.Button(self.window, text="Начать", command=self.start_quiz)
+        self.btn.pack()
+        self.window.mainloop()
 
-n = 0
-for elem in list(question[1].keys())[:-1]:
-    n += 1
-    print(n,':', elem)
+    def checking(self, elem):
+        print(elem)
+        print(self.question[1])
+
+        if self.question[1][elem] == True:
+            self.answer_label.config(text='Правильно')
+        else:
+            self.answer_label.config(text='Неправильно')
 
 
-ans = str(input())
+    def start_quiz(self):
+        self.question = services.take_question()
 
-try:
-    if question[1][ans] == True:
-        print('Правильно')
-    else:
-        print('Не правильно')
-except KeyError:
-    print('Неправильно')
+        self.btn.config(state=["disabled"])
+
+        self.lbl.config(text=str(self.question[0]), font=("Arial Bold", 25))
+
+        self.answer_label = tkinter.Label(self.window)
+        self.answer_label.pack()
+
+        for elem in list(self.question[1].keys())[:-1]:
+            tkinter.Button(self.window, text=str(elem), command=lambda cur = elem: self.checking(cur)).pack()
+    
+
+quiz = Quiz()
+
+
+
+# print(question[0], '\n')
+
+# n = 0
+# for elem in list(question[1].keys())[:-1]:
+#     n += 1
+#     print(n,':', elem)
+
+
+# ans = str(input())
+
+# try:
+#     if question[1][ans] == True:
+#         print('Правильно')
+#     else:
+#         print('Не правильно')
+# except KeyError:
+#     print('Неправильно')
+# try:
+#     if question[1][ans] == True:
+#         print('Правильно')
+#     else:
+#         print('Не правильно')
+# except KeyError:
+#     print('Неправильно')

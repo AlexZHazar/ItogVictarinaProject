@@ -26,6 +26,8 @@ def take_question ():
     return choice(list(quest_dict.items()))
 
 
+
+
 # def Comparison (answer, right_answer, points, delta_points):
 #     if answer == right_answer:
 #         points = points + delta_points
